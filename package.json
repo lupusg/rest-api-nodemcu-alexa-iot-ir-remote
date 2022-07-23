@@ -1,0 +1,15 @@
+{
+  "name": "rest-api-nodemcu-alexa-iot-ir-remote",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vlad-Marian Lupu",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
