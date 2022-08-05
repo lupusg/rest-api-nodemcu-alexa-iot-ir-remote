@@ -21,14 +21,15 @@ import axios from 'axios';
 const startReceiving = express.Router();
 
 startReceiving.use((request, response, next) => {
-  console.log('worksssss');
+  console.log(`[${new Date().toISOString()}] Page accessed.`);
   next();
 });
 
 startReceiving
-    .route('/startReceiving')
-    // head
+    .route('/')
     .post((request, response) => {
+      response.status(200).send('[Start Receiving] Request sent.');
+      console.log('[Start Recording] Request sent.');
       axios({
         method: 'post',
         url: 'http://192.168.0.109:80/startReceiving',
