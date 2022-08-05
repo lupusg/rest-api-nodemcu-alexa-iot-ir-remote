@@ -13,7 +13,10 @@
  */
 
 import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 import {startReceiving} from './api/routes/start-receiving.js';
+import {signal} from './api/routes/store-signal.js';
 
 'use strict';
 
@@ -21,13 +24,18 @@ import {startReceiving} from './api/routes/start-receiving.js';
  * Main function.
  */
 function main() {
-  const APP = express();
+  const app = express();
 
-  APP.set('port', 8081);
-  APP.use(startReceiving);
+  mongoose.connect('mongodb://localhost:27017/nodemcu-alexa-iot-ir-remote');
+  app.use(bodyParser.text());
+  app.set('port', 8081);
 
-  APP.listen(APP.get('port'), function() {
-    console.log('Server is running on ' + APP.get('port'));
+  // Routes
+  app.use('/startReceiving', startReceiving);
+  app.use('/signal', signal);
+
+  app.listen(app.get('port'), function() {
+    console.log('Server is running on ' + app.get('port'));
   });
 }
 
