@@ -28,6 +28,7 @@ function main() {
 
   mongoose.connect('mongodb://localhost:27017/nodemcu-alexa-iot-ir-remote');
   app.use(bodyParser.text());
+  app.use(bodyParser.json());
   app.set('port', 8081);
 
   // Routes

@@ -32,17 +32,32 @@ signal
     // Stores the infrared signal into db
     .post((request, response) => {
       const Signals = mongoose.model('signals', signalSchema);
-      new Signals({data: request.body, created_at: new Date()})
-          .save()
-          .catch((error) => console.log(error));
-      response.status(200).send();
-      console.log('[POST][Store Signal] Request received.');
+      const DATA = request.body;
+      const DATA_NAME = DATA['name'];
+
+      if (DATA_NAME !== undefined) {
+        const filter = {};
+        const update = {name: DATA_NAME};
+        const options = {new: true};
+
+        Signals.findOneAndUpdate(filter, update, options,
+            function(error, result) {
+              console.log(result);
+            }).sort({created_at: -1});
+      } else {
+        const DEFAULT_NAME = 'unknown';
+        new Signals({name: DEFAULT_NAME, data: DATA, created_at: new Date()})
+            .save()
+            .catch((error) => console.log(error));
+        response.status(200).send();
+        console.log('[POST][Store Signal] Request received.');
+      }
     })
     // Returns the last stored signal from db
     .get((request, response) => {
       const Signals = mongoose.model('signals', signalSchema);
       Signals.findOne().sort({created_at: -1}).exec(function(error, result) {
-        const DATA = result['data'];
+        const DATA = {name: result['name'], signal: result['data']};
         response.status(200).send(DATA);
         console.log('[GET][Store Signal] Data sent.');
       });
