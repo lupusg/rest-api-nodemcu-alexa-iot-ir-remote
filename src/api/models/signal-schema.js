@@ -17,6 +17,7 @@
 import mongoose from 'mongoose';
 
 export const signalSchema = new mongoose.Schema({
+  assigned_button: String,
   name: String,
   data: String,
   created_at: Date,
