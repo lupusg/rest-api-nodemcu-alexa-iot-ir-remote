@@ -15,8 +15,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import {startReceiving} from './api/routes/start-receiving.js';
-import {signal} from './api/routes/store-signal.js';
+import {toggleReceiving} from './api/routes/toggle-receiving.js';
+import {signal} from './api/routes/signal.js';
+import {arduinoIotCloud} from './api/routes/arduino-iot-cloud.js';
 
 'use strict';
 
@@ -28,11 +29,13 @@ function main() {
 
   mongoose.connect('mongodb://localhost:27017/nodemcu-alexa-iot-ir-remote');
   app.use(bodyParser.text());
+  app.use(bodyParser.json());
   app.set('port', 8081);
 
   // Routes
-  app.use('/startReceiving', startReceiving);
+  app.use('/toggle-receiving', toggleReceiving);
   app.use('/signal', signal);
+  app.use('/cloud', arduinoIotCloud);
 
   app.listen(app.get('port'), function() {
     console.log('Server is running on ' + app.get('port'));

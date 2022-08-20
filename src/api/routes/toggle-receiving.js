@@ -7,7 +7,7 @@
  *
  * Rest API
  *
- * @desc Express route for start receiving (infrared signal).
+ * @desc Express route for toggle receiving (infrared signal).
  * @since July 30, 2022
  * @author Vlad-Marian Lupu
  */
@@ -18,23 +18,26 @@ import axios from 'axios';
 'use strict';
 
 // eslint-disable-next-line new-cap
-const startReceiving = express.Router();
+const toggleReceiving = express.Router();
 
-startReceiving.use((request, response, next) => {
+toggleReceiving.use((request, response, next) => {
   console.log(`[${new Date().toISOString()}] Page accessed.`);
   next();
 });
 
-startReceiving
+toggleReceiving
     .route('/')
     .post((request, response) => {
-      response.status(200).send('[Start Receiving] Request sent.');
-      console.log('[Start Recording] Request sent.');
       axios({
         method: 'post',
-        url: 'http://192.168.0.109:80/startReceiving',
+        url: 'http://192.168.0.109:80/toggle-receiving',
         data: {},
       });
+      console.log('[Toggle Receiving] Request sent.');
+      response.status(200);
+    })
+    .get((request, response) => {
+      response.send('works');
     });
 
-export {startReceiving};
+export {toggleReceiving};
