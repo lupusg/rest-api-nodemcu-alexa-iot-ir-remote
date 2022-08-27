@@ -17,8 +17,19 @@
 import mongoose from 'mongoose';
 
 export const signalSchema = new mongoose.Schema({
-  assigned_button: String,
-  name: String,
-  data: String,
-  created_at: Date,
+  assigned_button: {
+    type: String,
+    default: 'Unknown',
+  },
+  name: {
+    type: String,
+    default: 'Unknown',
+  },
+  data: {
+    type: String,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
 });
