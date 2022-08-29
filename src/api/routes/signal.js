@@ -30,9 +30,9 @@ signal.use((request, response, next) => {
 signal
     .route('/')
     .post((request, response) => {
-      const Signals = mongoose.model('signals', signalSchema);
       const DATA = request.body;
       const DATA_NAME = DATA['name'];
+      const Signals = mongoose.model('signals', signalSchema);
 
       // If there is 'name' in the payload it updates the signal name.
       if (DATA_NAME !== undefined) {
@@ -45,14 +45,8 @@ signal
               console.log(result);
             }).sort({created_at: -1}); // Sort descendent
       } else { // Else it stores the new signal into the database
-        const DEFAULT_NAME = 'unknown';
-        const DEFAULT_ASSIGNED_BUTTON = 'unknown';
-
         new Signals({
-          assigned_button: DEFAULT_ASSIGNED_BUTTON,
-          name: DEFAULT_NAME,
           data: DATA,
-          created_at: new Date(),
         })
             .save()
             .catch((error) => console.log(error));
