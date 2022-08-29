@@ -35,7 +35,7 @@ const HEADERS = {
 
 /**
  * Gets the IOT Cloud token.
- * @return {string} The Arduino IOT Cloud token.
+ * @return {Promise} The Arduino IOT Cloud token.
  */
 const getToken = async () => {
   try {
