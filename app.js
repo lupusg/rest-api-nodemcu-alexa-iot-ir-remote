@@ -15,9 +15,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import {toggleReceiving} from './api/routes/toggle-receiving.js';
-import {signal} from './api/routes/signal.js';
-import {arduinoIotCloud} from './api/routes/arduino-iot-cloud.js';
+import {toggleReceiving} from './src/api/routes/toggle-receiving.js';
+import {signal} from './src/api/routes/signal.js';
+import {arduinoIotCloud} from './src/api/routes/cloud.js';
 
 'use strict';
 
@@ -27,7 +27,7 @@ import {arduinoIotCloud} from './api/routes/arduino-iot-cloud.js';
 function main() {
   const app = express();
 
-  mongoose.connect('mongodb://localhost:27017/nodemcu-alexa-iot-ir-remote');
+  mongoose.connect('mongodb+srv://lupus:Q0UMyEGFArXKfQF8@cluster0.v8iiatl.mongodb.net/nodemcu-alexa-iot-ir-remote?retryWrites=true&w=majority');
   app.use(bodyParser.text());
   app.use(bodyParser.json());
   app.set('port', 8081);
