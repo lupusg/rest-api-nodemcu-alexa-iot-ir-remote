@@ -1,0 +1,38 @@
+/**
+ * NodeMCU Alexa IOT Infrared Remote
+ *
+ * Convert old devices that are not compatible
+ * with Alexa into compatible ones using infrared
+ * signals.
+ *
+ * Rest API
+ *
+ * @desc Express route for the Arduino IOT Cloud.
+ * @since August 15, 2022
+ * @author Vlad-Marian Lupu
+ */
+
+import express from 'express';
+import {changeSwitchState, getThings} from '../controllers/cloud.js';
+
+'use strict';
+
+// eslint-disable-next-line new-cap
+const arduinoIotCloud = express.Router();
+
+arduinoIotCloud.use((request, response, next) => {
+  console.log(`[${new Date().toISOString()}] Page accessed.`);
+  next();
+});
+
+arduinoIotCloud
+    .route('/change-switch-state')
+    .post(changeSwitchState);
+
+arduinoIotCloud
+    .route('/things')
+    // Sends a list with all properties (switches, etc.) that a device has.
+    .get(getThings);
+
+
+export {arduinoIotCloud};

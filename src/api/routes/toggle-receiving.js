@@ -13,7 +13,7 @@
  */
 
 import express from 'express';
-import axios from 'axios';
+import {sendToggleRequest} from '../controllers/toggle-receiving.js';
 
 'use strict';
 
@@ -27,15 +27,7 @@ toggleReceiving.use((request, response, next) => {
 
 toggleReceiving
     .route('/')
-    .post((request, response) => {
-      axios({
-        method: 'post',
-        url: 'http://192.168.0.109:80/toggle-receiving',
-        data: {},
-      });
-      console.log('[Toggle Receiving] Request sent.');
-      response.status(200);
-    })
+    .post(sendToggleRequest)
     .get((request, response) => {
       response.send('works');
     });
