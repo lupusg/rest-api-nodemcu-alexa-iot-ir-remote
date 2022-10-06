@@ -32,6 +32,10 @@ export const userSchema = new mongoose.Schema({
     default: 'user',
     required: true,
   },
+  token: {
+    type: String,
+    default: 'undefined',
+  },
 });
 
 export const User = mongoose.model('user', userSchema);
