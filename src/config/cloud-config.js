@@ -16,10 +16,10 @@
 import axios from 'axios';
 import iotCloud from '@arduino/arduino-iot-client';
 import querystring from 'querystring';
+import dotenv from 'dotenv';
 
 'use strict';
 
-const THING_ID = 'fd41d2d8-3a9a-4a19-a56c-5e5f0d822cd1';
 const properties = new iotCloud.PropertiesV2Api();
 const devices = new iotCloud.DevicesV2Api();
 
@@ -31,9 +31,8 @@ const getToken = async () => {
   const API_URL = 'https://api2.arduino.cc/iot/v1/clients/token';
   const PAYLOAD = querystring.stringify({
     grant_type: 'client_credentials',
-    client_id: 'emAwLDhOR2Eeb5GJLpIRLlxVVgolpe3M',
-    client_secret:
-          'FkVM19LhFVcwV90MJGeSqASTGmHYECAuTr2ecBnHRfbLdZR5rMNqBKSqyrSxjtXM',
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
     audience: 'https://api2.arduino.cc/iot',
   });
   const HEADERS = {
@@ -59,6 +58,7 @@ function main() {
   const client = iotCloud.ApiClient.instance;
   const oauth2 = client.authentications['oauth2'];
 
+  dotenv.config();
   updateToken(oauth2);
   setInterval(async () => {
     updateToken(oauth2);
@@ -67,4 +67,4 @@ function main() {
 
 main();
 
-export {properties, devices, THING_ID};
+export {properties, devices};

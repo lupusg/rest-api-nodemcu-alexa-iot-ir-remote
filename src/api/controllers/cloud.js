@@ -13,14 +13,14 @@
  */
 
 import {
-  properties, THING_ID,
+  properties,
 } from '../../config/cloud-config.js';
 
 'use strict';
 
 export const changeSwitchState = (request, response) => {
   // Get the properties list using the thing id (nodemcu id).
-  properties.propertiesV2List(THING_ID)
+  properties.propertiesV2List(process.env.THING_ID)
       .then((result) => {
         const SWITCH_ID = request.body.switchId;
         const PROPERTY = result.find((element) =>
@@ -28,13 +28,18 @@ export const changeSwitchState = (request, response) => {
 
         // Set selected switch value to true.
         properties.propertiesV2Publish(
-            THING_ID, PROPERTY.id, {value: 'true'});
+            process.env.THING_ID, PROPERTY.id, {value: 'true'});
       }).catch((error) => console.error(error));
   response.sendStatus(200);
 };
 
-export const getThings = (request, response) => {
-  properties.propertiesV2List(THING_ID)
+export const getThings = async (request, response) => {
+  // try {
+  //   const thingProperites = await properties.propertiesV2List(THING)
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  properties.propertiesV2List(process.env.THING_ID)
       .then((things) => {
         response.send(things);
       })
