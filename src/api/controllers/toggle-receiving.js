@@ -12,16 +12,11 @@
  * @author Vlad-Marian Lupu
  */
 
-import axios from 'axios';
+import {authenticate, checkAuthentication} from '../utils/nodemcu-utils.js';
 
 'use strict';
 
 export const sendToggleRequest = (request, response) => {
-  axios({
-    method: 'post',
-    url: 'http://192.168.0.109:80/toggle-receiving',
-    data: {},
-  });
-  console.log('[Toggle Receiving] Request sent.');
-  response.status(200);
+  // authenticate();
+  response.status(200).send('Works');
 };
