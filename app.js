@@ -34,12 +34,12 @@ function main() {
 
   dotenv.config();
 
-  mongoose.connect('mongodb+srv://lupus:Q0UMyEGFArXKfQF8@cluster0.v8iiatl.mongodb.net/nodemcu-alexa-iot-ir-remote?retryWrites=true&w=majority');
+  mongoose.connect(process.env.MONGODB_URL);
   app.use(bodyParser.text());
   app.use(bodyParser.json());
   app.use(cookieParser());
 
-  app.set('port', 8081);
+  app.set('port', process.env.APP_PORT);
 
   // Routes
   app.use('/toggle-receiving', verifyToken, toggleReceiving);

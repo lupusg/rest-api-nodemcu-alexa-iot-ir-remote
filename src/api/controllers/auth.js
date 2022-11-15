@@ -11,15 +11,14 @@
  * @since October 4, 2022
  * @author Vlad-Marian Lupu
  */
-
-'use strict';
-
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import {User} from '../models/user.js';
 
-/*
+'use strict';
+
+/**
  * Registers a new user with a username, password and a JSON Web Token.
  *
  * The username and password input is taken from the request body.
