@@ -13,6 +13,7 @@
  */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import {debugLog} from '../helpers/logger.js';
 
 import {User} from '../models/user.js';
 
@@ -76,6 +77,8 @@ export const register = async (request, response) => {
  */
 export const login = async (request, response) => {
   const {username, password} = request.body;
+
+  debugLog('[Auth] Login request received. >>', request.body, '<<');
 
   try {
     if (!(username && password)) {
