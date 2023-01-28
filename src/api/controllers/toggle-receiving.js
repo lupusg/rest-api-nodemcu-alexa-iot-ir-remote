@@ -12,11 +12,12 @@
  * @author Vlad-Marian Lupu
  */
 
-import {authenticate, checkAuthentication} from '../utils/nodemcu-utils.js';
+import {authenticate, sendRequest} from '../utils/nodemcu-utils.js';
 
 'use strict';
 
 export const sendToggleRequest = (request, response) => {
-  // authenticate();
-  response.status(200).send('Works');
+  authenticate();
+  // sendRequest();
+  response.status(200).send('OK');
 };
