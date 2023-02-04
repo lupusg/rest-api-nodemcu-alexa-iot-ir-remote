@@ -13,7 +13,7 @@
  */
 
 import express from 'express';
-import {login, register} from '../controllers/auth.js';
+import {login} from '../controllers/auth.js';
 
 'use strict';
 
@@ -21,8 +21,8 @@ import {login, register} from '../controllers/auth.js';
 const auth = express.Router();
 
 auth
-    .route('/register')
-    .post(register);
+    .route('/register');
+    // .post(register);
 
 auth
     .route('/login')
