@@ -15,7 +15,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import {debugLog} from '../helpers/logger.js';
 
-import {findUser} from '../services/auth.js';
+import {findUser} from '../services/database.js';
 
 'use strict';
 
