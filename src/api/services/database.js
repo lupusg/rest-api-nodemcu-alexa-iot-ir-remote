@@ -7,6 +7,7 @@
  *
  * Rest API
  *
+ * @desc The service for database.
  * @since February 2, 2023
  * @author Vlad-Marian Lupu
  */
