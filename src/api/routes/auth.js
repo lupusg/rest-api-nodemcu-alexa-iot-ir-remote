@@ -20,9 +20,9 @@ import {login} from '../controllers/auth.js';
 // eslint-disable-next-line new-cap
 const auth = express.Router();
 
-auth
-    .route('/register');
-    // .post(register);
+// auth
+//     .route('/register');
+//     // .post(register);
 
 auth
     .route('/login')

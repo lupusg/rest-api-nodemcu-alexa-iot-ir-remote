@@ -21,12 +21,44 @@
 export const findUser = async (app, username) => {
   try {
     const {recordset, rowsAffected} = await app.locals.db.query(
-        'SELECT * FROM dbo.Users WHERE Username = \'' + username + '\'');
+        'SELECT * FROM dbo.Users WHERE Username = \'' + username + '\'',
+    );
 
     if (rowsAffected[0] === 0) {
       return false;
     }
     return recordset[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findSignal = async (app, assignedButton) => {
+  try {
+    const {recordset, rowsAffected} = await app.locals.db.query(
+        'SELECT * FROM dbo.Signals ' +
+        'WHERE AssignedButton = \'' + assignedButton + '\'',
+    );
+
+    if (rowsAffected[0] === 0) {
+      return false;
+    }
+    return recordset[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addSignal = async (app, data) => {
+  try {
+    const {rowsAffected} = await app.locals.db.query(
+        `INSERT INTO dbo.Signals (Id, Name, Data, CreatedAt, AssignedButton) 
+      VALUES (NEWID(), 'n/a', '${data}', '${new Date().toISOString()}', 'n/a')`,
+    );
+    if (rowsAffected[0] === 0) {
+      return false;
+    }
+    return true;
   } catch (error) {
     console.log(error);
   }
