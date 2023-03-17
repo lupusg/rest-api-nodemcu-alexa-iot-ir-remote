@@ -15,7 +15,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import {debugLog} from '../helpers/logger.js';
 
-import {User} from '../models/user.js';
+import {findUser} from '../services/database.js';
 
 'use strict';
 
@@ -27,6 +27,7 @@ import {User} from '../models/user.js';
  * @param {Object} response The HTTP response that an Express app sends when
  *                          it gets an HTTP request.
  */
+/* TEMPORARY DISABLED;
 export const register = async (request, response) => {
   const {username, password} = request.body;
 
@@ -65,6 +66,7 @@ export const register = async (request, response) => {
     console.log(error);
   }
 };
+*/
 
 /**
  * Logins an existing user with a username, password and it stores the jwt
@@ -85,10 +87,10 @@ export const login = async (request, response) => {
       return response.status(400).send('Username & password are required.');
     }
 
-    const user = await User.findOne({username});
-    if (user && await bcrypt.compare(password, user.password)) {
+    const user = await findUser(request.app, username);
+    if (user && await bcrypt.compare(password, user.Password)) {
       const token = jwt.sign(
-          {user_id: user._id, username},
+          {user_id: user.Id, username},
           process.env.TOKEN_KEY,
           {
             expiresIn: '2h',
@@ -100,10 +102,7 @@ export const login = async (request, response) => {
       };
 
       response.cookie('x-access-token', token, options);
-      user.token = token;
-      await user.save();
-
-      return response.status(200).json(user);
+      return response.status(200).send(username + ', you are now logged in.');
     }
     return response.status(400).send('Invalid username or password');
   } catch (error) {
