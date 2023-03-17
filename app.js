@@ -44,9 +44,9 @@ function main() {
   app.set('port', process.env.APP_PORT);
 
   // Routes
-  app.use('/toggle-receiving', verifyToken, toggleReceiving);
-  app.use('/signal', verifyToken, signal);
-  app.use('/cloud', verifyToken, arduinoIotCloud);
+  app.use('/toggle-receiving', toggleReceiving);
+  app.use('/signal', signal);
+  app.use('/cloud', arduinoIotCloud);
   app.use('/auth', auth);
 
   appPool.connect().then(function(pool) {
