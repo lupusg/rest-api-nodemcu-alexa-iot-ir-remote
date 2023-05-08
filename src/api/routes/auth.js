@@ -13,16 +13,16 @@
  */
 
 import express from 'express';
-import {login, register} from '../controllers/auth.js';
+import {login} from '../controllers/auth.js';
 
 'use strict';
 
 // eslint-disable-next-line new-cap
 const auth = express.Router();
 
-auth
-    .route('/register')
-    .post(register);
+// auth
+//     .route('/register');
+//     // .post(register);
 
 auth
     .route('/login')

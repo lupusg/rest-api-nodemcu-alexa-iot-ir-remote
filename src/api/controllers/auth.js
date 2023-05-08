@@ -11,10 +11,10 @@
  * @since October 4, 2022
  * @author Vlad-Marian Lupu
  */
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
-import {User} from '../models/user.js';
+import {debugLog} from '../helpers/logger.js';
+import {getUser} from '../database/queries.js';
+import identity from 'aspnetcore-identity-password-hasher';
 
 'use strict';
 
@@ -26,6 +26,7 @@ import {User} from '../models/user.js';
  * @param {Object} response The HTTP response that an Express app sends when
  *                          it gets an HTTP request.
  */
+/* TEMPORARY DISABLED;
 export const register = async (request, response) => {
   const {username, password} = request.body;
 
@@ -64,6 +65,7 @@ export const register = async (request, response) => {
     console.log(error);
   }
 };
+*/
 
 /**
  * Logins an existing user with a username, password and it stores the jwt
@@ -77,30 +79,26 @@ export const register = async (request, response) => {
 export const login = async (request, response) => {
   const {username, password} = request.body;
 
+  debugLog('[Auth] Login request received. >>', request.body, '<<');
+
   try {
     if (!(username && password)) {
       return response.status(400).send('Username & password are required.');
     }
 
-    const user = await User.findOne({username});
-    if (user && await bcrypt.compare(password, user.password)) {
+    const user = await getUser(username);
+    if (user && await identity.verify(password, user.PasswordHash)) {
       const token = jwt.sign(
-          {user_id: user._id, username},
+          {user_id: user.Id, username},
           process.env.TOKEN_KEY,
-          {
-            expiresIn: '2h',
-          },
       );
       const options = {
         httpOnly: true,
-        maxAge: 2 * 60 * 60 * 1000, // 2 hours
+        // maxAge: 2 * 60 * 60 * 1000, // 2 hours
       };
 
       response.cookie('x-access-token', token, options);
-      user.token = token;
-      await user.save();
-
-      return response.status(200).json(user);
+      return response.status(200).send(username + ', you are now logged in.');
     }
     return response.status(400).send('Invalid username or password');
   } catch (error) {

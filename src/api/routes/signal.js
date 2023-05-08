@@ -15,7 +15,7 @@
 
 import express from 'express';
 
-import {getSignal, newSignal} from '../controllers/signal.js';
+import {getSignal, postSignal} from '../controllers/signal.js';
 
 'use strict';
 
@@ -29,7 +29,7 @@ signal.use((request, response, next) => {
 
 signal
     .route('/')
-    .post(newSignal)
+    .post(postSignal)
     .get(getSignal);
 
 export {signal};

@@ -15,6 +15,7 @@
 'use strict';
 
 import jwt from 'jsonwebtoken';
+import {debugLog} from '../helpers/logger.js';
 
 
 // eslint-disable-next-line valid-jsdoc
@@ -31,6 +32,8 @@ export const verifyToken = (request, response, next) => {
   const token =
     request.body.token || request.query.token ||
     request.cookies['x-access-token'];
+
+  debugLog('Token received >>>\n' + token + '\n<<<');
 
   if (!token) {
     response.status(403).send('A token is required for authentication.');

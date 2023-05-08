@@ -12,57 +12,37 @@
  * @author Vlad-Marian Lupu
  */
 
-import mongoose from 'mongoose';
-import {signalSchema} from '../models/signal.js';
 
 'use strict';
 
-export const newSignal = (request, response) => {
+import {addSignal, findSignal} from '../database/queries.js';
+import {debugLog} from '../helpers/logger.js';
+
+export const postSignal = async (request, response) => {
   const DATA = request.body;
-  const DATA_NAME = DATA['name'];
-  const Signals = mongoose.model('signals', signalSchema);
 
-  // If there is 'name' in the payload it updates the signal name.
-  if (DATA_NAME !== undefined) {
-    const FILTER = {};
-    const UPDATE = {name: DATA_NAME};
-    const OPTIONS = {new: true};
+  debugLog('Received postSignal request >>> \n' + DATA + '\n<<<');
 
-    Signals.findOneAndUpdate(FILTER, UPDATE, OPTIONS,
-        function(error, result) {
-          console.log(result);
-        }).sort({created_at: -1}); // Sort descendent
-  } else { // Else it stores the new signal into the database
-    new Signals({
-      data: DATA,
-    })
-        .save()
-        .catch((error) => console.log(error));
-    response.status(200).send();
-    console.log('[POST][Store Signal] Request received.');
+  const result = await addSignal(DATA);
+
+  if (result === true) {
+    response.sendStatus(200);
+    return;
   }
+  response.sendStatus(500);
 };
 
-export const getSignal = (request, response) => {
-  const Signals = mongoose.model('signals', signalSchema);
+export const getSignal = async (request, response) => {
   const SWITCH_NAME = request.query.switchName;
 
-  if (SWITCH_NAME !== undefined) {
-    Signals.findOne({assigned_button: SWITCH_NAME},
-        function(error, result) {
-          if (result !== null) {
-            const DATA = result['data'];
-            const DATA_SIZE = DATA.split(' ').length - 1;
-
-            response.send(`[${DATA_SIZE}]${DATA}`);
-          }
-        });
+  if (SWITCH_NAME === undefined) {
+    response.status(400).send('Invalid request. Please specify switchName.');
+  }
+  const result = await findSignal(SWITCH_NAME);
+  if (result !== undefined) {
+    response.status(200).send(result.IrData);
+    console.log(result.IrData);
   } else {
-    Signals.findOne().sort({created_at: -1}).exec(function(error, result) {
-      const DATA = {name: result['name'], signal: result['data']};
-
-      response.status(200).send(DATA);
-      console.log('[GET][Store Signal] Data sent.');
-    });
+    response.status(404).send('Not found.');
   }
 };

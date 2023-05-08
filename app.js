@@ -15,7 +15,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import {toggleReceiving} from './src/api/routes/toggle-receiving.js';
@@ -23,6 +22,7 @@ import {signal} from './src/api/routes/signal.js';
 import {arduinoIotCloud} from './src/api/routes/cloud.js';
 import {auth} from './src/api/routes/auth.js';
 import {verifyToken} from './src/api/middlewares/auth.js';
+
 
 'use strict';
 
@@ -34,7 +34,6 @@ function main() {
 
   dotenv.config();
 
-  mongoose.connect(process.env.MONGODB_URL);
   app.use(bodyParser.text());
   app.use(bodyParser.json());
   app.use(cookieParser());
