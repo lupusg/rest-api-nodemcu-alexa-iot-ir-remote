@@ -11,11 +11,10 @@
  * @since October 4, 2022
  * @author Vlad-Marian Lupu
  */
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import {debugLog} from '../helpers/logger.js';
-
-import {findUser} from '../services/database.js';
+import {getUser} from '../database/queries.js';
+import identity from 'aspnetcore-identity-password-hasher';
 
 'use strict';
 
@@ -87,18 +86,15 @@ export const login = async (request, response) => {
       return response.status(400).send('Username & password are required.');
     }
 
-    const user = await findUser(request.app, username);
-    if (user && await bcrypt.compare(password, user.Password)) {
+    const user = await getUser(username);
+    if (user && await identity.verify(password, user.PasswordHash)) {
       const token = jwt.sign(
           {user_id: user.Id, username},
           process.env.TOKEN_KEY,
-          {
-            expiresIn: '2h',
-          },
       );
       const options = {
         httpOnly: true,
-        maxAge: 2 * 60 * 60 * 1000, // 2 hours
+        // maxAge: 2 * 60 * 60 * 1000, // 2 hours
       };
 
       response.cookie('x-access-token', token, options);
