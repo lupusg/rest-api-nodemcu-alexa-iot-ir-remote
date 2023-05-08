@@ -12,12 +12,15 @@
  * @author Vlad-Marian Lupu
  */
 
-import {authenticate, sendRequest} from '../utils/nodemcu-utils.js';
+import {
+  authenticate, sendToggleReceivingRequest,
+} from '../services/nodemcu.js';
 
 'use strict';
 
-export const sendToggleRequest = (request, response) => {
-  authenticate();
-  // sendRequest();
-  response.status(200).send('OK');
+export const sendToggleRequest = async (request, response) => {
+  // authenticate().then(async () => {
+  // });
+  await sendToggleReceivingRequest();
+  response.status(200).send();
 };

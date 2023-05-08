@@ -27,9 +27,6 @@ toggleReceiving.use((request, response, next) => {
 
 toggleReceiving
     .route('/')
-    .post(sendToggleRequest)
-    .get((request, response) => {
-      response.send('works');
-    });
+    .post(sendToggleRequest);
 
 export {toggleReceiving};

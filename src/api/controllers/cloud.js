@@ -18,6 +18,12 @@ import {
 
 'use strict';
 
+/**
+ * Changes the switch (from Arduin IOT Cloud) state to true.
+ * @param {Object} request The HTTP request.
+ * @param {Object} response The HTTP response that an Express app sends when
+ *                          it gets an HTTP request.
+ */
 export const changeSwitchState = (request, response) => {
   // Get the properties list using the thing id (nodemcu id).
   properties.propertiesV2List(process.env.THING_ID)
