@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@arduino/arduino-iot-client": "^1.4.2",
+    "aspnetcore-identity-password-hasher": "^1.0.1",
     "axios": "^0.27.2",
     "axios-cookiejar-support": "^4.0.3",
     "bcryptjs": "^2.4.3",
@@ -25,6 +26,7 @@
     "mongoose": "^6.9.0",
     "mssql": "^9.1.1",
     "node-fetch": "^3.3.0",
+    "pg": "^8.10.0",
     "querystring": "^0.2.1",
     "tough-cookie": "^4.1.2"
   },
