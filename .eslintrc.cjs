@@ -12,5 +12,6 @@ module.exports = {
   },
   'rules': {
     'quotes': ['error', 'single'],
+    'linebreak-style': 0,
   },
 };
