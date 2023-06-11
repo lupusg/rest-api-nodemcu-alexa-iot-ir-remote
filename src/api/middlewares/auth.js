@@ -20,9 +20,8 @@ import {debugLog} from '../helpers/logger.js';
 
 // eslint-disable-next-line valid-jsdoc
 /**
- * Registers a new user with a username, password and a JSON Web Token.
+ * Verifies the jwt token.
  *
- * The username and password input is taken from the request body.
  * @param {Object} request The HTTP request.
  * @param {Object} response The HTTP response that an Express app sends when
  *                          it gets an HTTP request.
