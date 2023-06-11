@@ -19,8 +19,8 @@ import {
 'use strict';
 
 export const sendToggleRequest = async (request, response) => {
-  // authenticate().then(async () => {
-  // });
-  await sendToggleReceivingRequest();
+  authenticate().then(() => {
+    sendToggleReceivingRequest();
+  });
   response.status(200).send();
 };

@@ -27,14 +27,13 @@ const client = wrapper(axios.create({jar}));
 export const authenticate = async () => {
   try {
     if (!jar.toJSON().cookies.includes('ESPSESSIONID')) {
-      client.post(process.env.NODEMCU_API_URL + '/login', null, {
+      await client.post(process.env.NODEMCU_API_URL + '/login', null, {
         params: {
           username: process.env.NODEMCU_USERNAME,
           password: process.env.NODEMCU_PASSWORD,
         },
       });
     }
-    console.log('auth done');
     return true;
   } catch (error) {
     console.log(error);
@@ -44,16 +43,9 @@ export const authenticate = async () => {
 
 export const sendToggleReceivingRequest = async () => {
   try {
-    client.post(process.env.NODEMCU_API_URL + '/toggle-receiving', {
+    await client.post(process.env.NODEMCU_API_URL + '/toggle-receiving', {
       withCredentials: true,
-    })
-        .catch((error) => {
-          console.log(error);
-          // if (error.response.status === 401) {
-        // authenticate();
-        // }
-        });
-    console.log('toggle request');
+    });
     return true;
   } catch (error) {
     console.log(error);
