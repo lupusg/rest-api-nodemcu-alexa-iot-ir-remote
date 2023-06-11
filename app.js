@@ -16,6 +16,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import ip from 'ip';
 
 import {toggleReceiving} from './src/api/routes/toggle-receiving.js';
 import {signal} from './src/api/routes/signal.js';
@@ -47,7 +48,7 @@ function main() {
   app.use('/auth', auth);
 
   app.listen(app.get('port'), function() {
-    console.log('Server is running on ' + app.get('port'));
+    console.log('Server is running on ' + ip.address() + ':' + app.get('port'));
   });
 }
 
