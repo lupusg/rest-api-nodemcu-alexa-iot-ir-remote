@@ -37,6 +37,27 @@ export const getUser = async (username) => {
   }
 };
 
+export const getAllSignalsNameWithAssignedButton = async () => {
+  const query = {
+    name: 'get-signals',
+    text:
+      'SELECT "Name", "AssignedButton" FROM "Signals"' +
+      'WHERE "AssignedButton" <> $1',
+    values: ['n/a'],
+  };
+
+  const client = await aiirPool.connect();
+
+  try {
+    const result = await client.query(query);
+    return result.rows;
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    client.release();
+  }
+};
+
 export const findSignal = async (assignedButton) => {
   const query = {
     name: 'get-signal',

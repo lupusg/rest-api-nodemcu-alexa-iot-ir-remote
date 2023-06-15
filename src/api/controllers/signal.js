@@ -15,7 +15,9 @@
 
 'use strict';
 
-import {addSignal, findSignal} from '../database/queries.js';
+import {
+  addSignal, findSignal, getAllSignalsNameWithAssignedButton,
+} from '../database/queries.js';
 import {debugLog} from '../helpers/logger.js';
 
 export const postSignal = async (request, response) => {
@@ -34,15 +36,25 @@ export const postSignal = async (request, response) => {
 
 export const getSignal = async (request, response) => {
   const SWITCH_NAME = request.query.switchName;
+  let result;
 
-  if (SWITCH_NAME === undefined) {
-    response.status(400).send('Invalid request. Please specify switchName.');
-  }
-  const result = await findSignal(SWITCH_NAME);
-  if (result !== undefined) {
-    response.status(200).send(result.IrData);
-    console.log(result.IrData);
+  if (SWITCH_NAME !== undefined) {
+    result = await findSignal(SWITCH_NAME);
+    result = result.IrData;
+
+    // if (result !== undefined) {
+    //   response.status(200).send(result.IrData);
+    //   console.log(result.IrData);
+    // } else {
+    //   response.status(404).send('Not found.');
+    // }
   } else {
-    response.status(404).send('Not found.');
+    result = await getAllSignalsNameWithAssignedButton();
+  }
+
+  if (result !== undefined) {
+    response.status(200).send(result);
+  } else {
+    response.status(404).send('Not found');
   }
 };
